@@ -1,0 +1,11 @@
+{
+  "name": "n-body-simulator",
+  "version-string": "0.1.0",
+  "builtin-baseline": "717e7d7195d4419752716c1bdfcdc318e13c0750",
+  "dependencies": [
+    "glfw3",
+    "glad",
+    "opengl",
+    "glm"
+  ]
+}

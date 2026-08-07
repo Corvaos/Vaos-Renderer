@@ -1,0 +1,7 @@
+# CMmake
+/out
+/vcpkg_installed
+
+# Personal Development
+/.vscode
+CMakePresets.json
