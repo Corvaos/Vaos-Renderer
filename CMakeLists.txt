@@ -8,9 +8,9 @@ project ("VaosRenderer" LANGUAGES CXX)
 
 # Include sub-projects.
 
-add_executable(VaosRenderer
+add_library(VaosRenderer
 # -------------- DEBUG --------------
-        examples/Application.cpp
+#        examples/Application.cpp
 
 # -------------- NUMERICS --------------
         include/vaos/renderer/Numerics/Vector3.h
@@ -20,13 +20,16 @@ add_executable(VaosRenderer
 # -------------- WINDOW --------------
 
         src/vaos/renderer/Window.cpp
+        include/vaos/renderer/Window.h
 
 # -------------- OBJECTS --------------
 
         include/vaos/renderer/Mesh/Mesh.h
         src/vaos/renderer/Mesh/MeshFactory.cpp
+        include/vaos/renderer/Mesh/MeshFactory.h
         
         src/vaos/renderer/Shader.cpp
+        include/vaos/renderer/Shader.h
         include/vaos/renderer/Material.h
 
         include/vaos/renderer/RenderObject.h
@@ -36,18 +39,17 @@ add_executable(VaosRenderer
         
 )
 
-target_include_directories(VaosRenderer
-    PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/vaos/renderer
-        ${CMAKE_CURRENT_SOURCE_DIR}/Debug
+add_library(VaosRenderer::VaosRenderer ALIAS VaosRenderer)
+
+target_include_directories(VaosRenderer PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
 )
 
 find_package(glad CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
-find_package(glm CONFIG REQUIRED)
 
-target_link_libraries(VaosRenderer PRIVATE
+target_link_libraries(VaosRenderer PUBLIC
         glfw
-        glm::glm
         glad::glad
 )
