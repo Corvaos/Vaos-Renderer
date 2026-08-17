@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GLFWContext.h"
-#include "Numerics/Transform.h"
-#include "Shader.h"
+#include "vaos/renderer/GLFWContext.h"
+#include "vaos/renderer/Numerics/Transform.h"
+#include "vaos/renderer/Shader.h"
 
 namespace vaos::renderer {
 

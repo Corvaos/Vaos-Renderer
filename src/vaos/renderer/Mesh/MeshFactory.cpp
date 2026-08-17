@@ -1,5 +1,5 @@
-#include "Mesh/MeshFactory.h"
-#include "Numerics/Vector3.h"
+#include "vaos/renderer/Mesh/MeshFactory.h"
+#include "vaos/renderer/Numerics/Vector3.h"
 #include <exception>
 
 using Mesh = vaos::renderer::Mesh;

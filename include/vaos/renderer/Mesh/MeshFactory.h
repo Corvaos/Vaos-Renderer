@@ -5,6 +5,7 @@
 #include <map>
 #include <cmath> // SIN/COS
 #include <string>
+#include <iostream>
 
 namespace vaos::renderer {
 

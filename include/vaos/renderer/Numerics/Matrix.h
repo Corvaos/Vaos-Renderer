@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector3.h"
+#include "vaos/renderer/Numerics/Vector3.h"
 #include <array>
 #include <cmath>
 #include <cstddef>

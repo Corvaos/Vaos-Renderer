@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "Numerics/Vector3.h"
-#include "GLFWContext.h"
+#include "vaos/renderer/Numerics/Vector3.h"
+#include "vaos/renderer/GLFWContext.h"
 
 namespace vaos::renderer {
 

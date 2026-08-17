@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GLFWContext.h"
-#include "Material.h"
-#include "Mesh/Mesh.h"
-#include "Numerics/Transform.h"
+#include "vaos/renderer/GLFWContext.h"
+#include "vaos/renderer/Material.h"
+#include "vaos/renderer/Mesh/Mesh.h"
+#include "vaos/renderer/Numerics/Transform.h"
 
 namespace vaos::renderer {
 class RenderObject {

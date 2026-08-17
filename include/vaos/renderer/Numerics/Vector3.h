@@ -11,18 +11,20 @@ struct Vector3 {
 
   Vector3(double x, double y, double z) : x(x), y(y), z(z) {}
 
-  Vector3 operator+(const Vector3 &a) {
+  // -------------------- RESULT OPERATORS --------------------
+  Vector3 operator+(const Vector3 &a) const {
     return Vector3(x + a.x, y + a.y, x + a.z);
   }
 
-  Vector3 operator-(const Vector3 &a) {
+  Vector3 operator-(const Vector3 &a) const {
     return Vector3(x - a.x, y - a.y, x - a.z);
   }
 
-  Vector3 operator*(const double &a) { return Vector3(x * a, y * a, z * a); }
+  Vector3 operator*(const double &a) const { return Vector3(x * a, y * a, z * a);}
 
-  Vector3 operator/(const double &a) { return Vector3(x / a, y / a, z / a); }
+  Vector3 operator/(const double &a) const { return Vector3(x / a, y / a, z / a); }
 
+  // -------------------- IMMEDIATE OPERATORS --------------------
   void operator+=(const Vector3 &a) {
     x += a.x;
     y += a.y;

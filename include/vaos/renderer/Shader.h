@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLFWContext.h"
+#include "vaos/renderer/GLFWContext.h"
 
 #include <fstream>
 #include <sstream>
@@ -9,7 +9,7 @@
 namespace vaos::renderer {
 struct Shader {
   // -------------- STATIC VARS --------------
-  static inline std::string prefix = "";
+  static inline std::string prefix; // = ""
 
   static void setAssetLocationPrefix(std::string a);
 

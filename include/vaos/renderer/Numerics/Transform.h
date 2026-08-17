@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Matrix.h"
-#include "Vector3.h"
+#include "vaos/renderer/Numerics/Matrix.h"
+#include "vaos/renderer/Numerics/Vector3.h"
 
 namespace vaos::numerics {
 struct Transform {
