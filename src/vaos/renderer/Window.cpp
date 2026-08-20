@@ -3,9 +3,9 @@
 #include <GLFW/glfw3.h>
 
 // ------------------- WINDOW INSTATIATION -------------------
-vaos::renderer::Window::Window(const std::string& name, const int& windowWidth, const int& windowHeight)
+vaos::renderer::Window::Window(const std::string& name, int width, int height)
 {
-  programWindow = glfwCreateWindow(windowWidth, windowHeight, name.c_str(), nullptr, nullptr);
+  programWindow = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 
   if (!programWindow)
   {
@@ -28,19 +28,18 @@ vaos::renderer::Window::Window(const std::string& name, const int& windowWidth, 
     return;
   }
 
-  int width, height;
   glfwGetFramebufferSize(programWindow, &width, &height);
 
   glViewport(0, 0, width, height);
 }
 
 // ------------------- CALLBACKS -------------------
-void vaos::renderer::Window::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void vaos::renderer::Window::framebuffer_size_callback(GLFWwindow* window, const int width, const int height)
 {
   glViewport(0, 0, width, height); // SETUP VIEWPORT
 }
 
-void vaos::renderer::Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void vaos::renderer::Window::key_callback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods)
 {
   if (action == GLFW_PRESS || action == GLFW_REPEAT)
   {
@@ -65,12 +64,14 @@ void vaos::renderer::Window::render()
 
   glfwPollEvents();
 
+  glfwGetFramebufferSize(programWindow, &width, &height);
+
   glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  for (const vaos::renderer::RenderObject& object : objects)
+  for (vaos::renderer::RenderObject& object : objects)
   {
-    object.draw();
+    object.draw(static_cast<float>(width)/static_cast<float>(height));
   }
 
   glfwSwapBuffers(programWindow);

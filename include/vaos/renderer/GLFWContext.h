@@ -7,8 +7,15 @@
 
 namespace vaos::renderer
 {
-  struct GLFWContext
+  class GLFWContext
   {
+  private:
+    static void error_callback(const int error, const char* description)
+    {
+      std::cerr << "Error: " << error << std::endl << description << std::endl;
+    }
+
+  public:
     static void init()
     {
       glfwSetErrorCallback(error_callback);
@@ -24,28 +31,9 @@ namespace vaos::renderer
       glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
 
-    static void error_callback(int error, const char* description)
-    {
-      std::cerr << "Error: \n" << description << std::endl;
-    }
-
     static void terminate()
     {
       glfwTerminate();
-    }
-
-    GLFWContext()
-    {
-      glfwSetErrorCallback(error_callback);
-      if (!glfwInit())
-      {
-        std::cerr << "Failed to init" << std::endl;
-      }
-    }
-
-    ~GLFWContext()
-    {
-      terminate();
     }
   };
 } // namespace vaos::renderer

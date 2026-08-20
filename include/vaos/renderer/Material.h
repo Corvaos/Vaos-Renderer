@@ -4,30 +4,25 @@
 #include "vaos/renderer/Numerics/Transform.h"
 #include "vaos/renderer/Shader.h"
 
-namespace vaos::renderer {
+#include <memory>
 
-class Material {
-  unsigned int shader;
-  GLuint transformLocation;
+namespace vaos::renderer
+{
+  class Material
+  {
+    const unsigned int shader;
+    GLint transformLocation;
+    GLint projectionLocation;
 
-  // UNIMPLEMENTED
-  float roughness;
+    // UNIMPLEMENTED
+    const float roughness{-1};
 
-public:
-  Material(unsigned int shader) : shader(shader) {
-    transformLocation = glGetUniformLocation(shader, "model");
-    if (transformLocation == -1) {
-      std::cerr << "Model uniform not found\n";
-    }
-  }
+  public:
+    explicit Material(unsigned int shader);
+    Material(const std::string& vertex, const std::string& fragment);
 
-  void useShader(vaos::numerics::Transform transform) {
-    vaos::numerics::Matrix4 matrix = transform.matrix();
+    void useShader(const vaos::numerics::Transform& transform, float aspect) const;
 
-    glUseProgram(shader);
-
-    glUniformMatrix4fv(transformLocation, 1, GL_FALSE, matrix.data.data());
-  }
-};
-
+    inline static std::vector<std::unique_ptr<Material>> materials = {};
+  };
 } // namespace vaos::renderer

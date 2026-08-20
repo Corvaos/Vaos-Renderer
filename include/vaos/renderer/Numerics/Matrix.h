@@ -3,14 +3,13 @@
 #include "vaos/renderer/Numerics/Vector3.h"
 #include <array>
 #include <cmath>
-#include <cstddef>
 
 namespace vaos::numerics {
 
 template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
   std::array<T, Rows * Columns> data;
 
-  // -------------------- IDENTIY MATRIX --------------------
+  // -------------------- IDENTITY MATRIX --------------------
   Matrix() {
     data.fill(0);
     for (int i = 0; i < Rows; i++) {
@@ -39,7 +38,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
     return output;
   }
 
-  [[nodiscard]] Matrix operator*(const float &a) const {
+  [[nodiscard]] Matrix operator*(const double &a) const {
     Matrix<T, Rows, Columns> output;
 
     for (int i = 0; i < Rows * Columns; i++) {
@@ -49,7 +48,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
     return output;
   }
 
-  [[nodiscard]] Matrix operator/(const float &a) const {
+  [[nodiscard]] Matrix operator/(const double &a) const {
     Matrix<T, Rows, Columns> output;
 
     for (int i = 0; i < Rows * Columns; i++) {
@@ -86,7 +85,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
 
   // -------------------- MATRIX MULTIPLICATION --------------------
   template <size_t z>
-  Matrix<T, Rows, z> operator*(const Matrix<T, Columns, z> &a) {
+  [[nodiscard]] Matrix<T, Rows, z> operator*(const Matrix<T, Columns, z> &a) {
     Matrix<T, Rows, z> output;
 
     for (int row = 0; row < Rows; row++) {
@@ -105,7 +104,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
   }
 
   // -------------------- TRANSFORMS --------------------
-  static Matrix<float, 4, 4> scale(const Vector3 &a) {
+  [[nodiscard]] static Matrix<float, 4, 4> scale(const Vector3 &a) {
     Matrix<float, 4, 4> output;
     output.data[0] = a.x;
     output.data[5] = a.y;
@@ -113,7 +112,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
     return output;
   }
 
-  static Matrix<float, 4, 4> rotateX(const Vector3 &a) {
+  [[nodiscard]] static Matrix<float, 4, 4> rotateX(const Vector3 &a) {
     Matrix<float, 4, 4> output;
 
     const float c = std::cos(a.x);
@@ -126,7 +125,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
     return output;
   }
 
-  static Matrix<float, 4, 4> rotateY(const Vector3 &a) {
+  [[nodiscard]] static Matrix<float, 4, 4> rotateY(const Vector3 &a) {
     Matrix<float, 4, 4> output;
 
     const float c = std::cos(a.y);
@@ -139,7 +138,7 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
     return output;
   }
 
-  static Matrix<float, 4, 4> rotateZ(const Vector3 &a) {
+  [[nodiscard]] static Matrix<float, 4, 4> rotateZ(const Vector3 &a) {
     Matrix<float, 4, 4> output;
 
     const float c = std::cos(a.z);
@@ -152,16 +151,46 @@ template <typename T, std::size_t Rows, std::size_t Columns> struct Matrix {
     return output;
   }
 
-  static Matrix<float, 4, 4> rotate(const Vector3 &a) {
+  [[nodiscard]] static Matrix<float, 4, 4> rotate(const Vector3 &a) {
     return rotateZ(a) * rotateY(a) * rotateX(a);
   }
 
-  static Matrix<float, 4, 4> translate(const Vector3 &a) {
+  [[nodiscard]] static Matrix<float, 4, 4> translate(const Vector3 &a) {
     Matrix<float, 4, 4> output;
     output.data[12] = a.x;
     output.data[13] = a.y;
     output.data[14] = a.z;
     return output;
+  }
+
+  [[nodiscard]] static Matrix<float, 4, 4> projection(const float& aspect)
+  {
+    Matrix<float, 4, 4> output;
+    if (aspect > 1)
+    {
+      output.data[0] = 1.0f / aspect;
+    }
+    else
+    {
+      output.data[5] = aspect;
+    }
+    return output;
+  }
+
+  // -------------------- CONVERSION --------------------
+  friend std::ostream& operator<<(std::ostream& os, const Matrix<T, Rows, Columns> &a)
+  {
+    for (int i = 0; i < Rows; i++)
+    {
+      os << "[ ";
+      for (int j = 0; j < Columns; j++)
+      {
+        os << a.data[i + j*Columns];
+        os << " ";
+      }
+      os << "]" << std::endl;;
+    }
+    return os;
   }
 };
 

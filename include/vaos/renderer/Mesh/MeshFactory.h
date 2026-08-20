@@ -19,7 +19,7 @@ public:
 
     static inline std::map<std::string, Mesh> meshes = {};
 
-    static Mesh getMesh(std::string);
+    static Mesh& getMesh(const std::string& meshName);
 };
 
 }

@@ -1,16 +1,16 @@
 ﻿# CMakeList.txt : Top-level CMake project file, do global configuration
 # and include sub-projects here.
 
-cmake_minimum_required (VERSION 4.2)
+cmake_minimum_required(VERSION 4.2)
 set(CMAKE_CXX_STANDARD 20)
 
-project ("VaosRenderer" LANGUAGES CXX)
+project("VaosRenderer" LANGUAGES CXX)
 
 # Include sub-projects.
 
 add_library(VaosRenderer
         # -------------- DEBUG --------------
-#                examples/Application.cpp
+#        examples/Application.cpp
 
         # -------------- NUMERICS --------------
         include/vaos/renderer/Numerics/Vector3.h
@@ -31,6 +31,7 @@ add_library(VaosRenderer
         include/vaos/renderer/Shader.h
         src/vaos/renderer/Shader.cpp
         include/vaos/renderer/Material.h
+        src/vaos/renderer/Material.cpp
 
         include/vaos/renderer/RenderObject.h
 

@@ -20,10 +20,10 @@ namespace vaos::renderer
 		GLFWwindow* programWindow;
 
 	public:
-		Window(const std::string& name, const int& width, const int& height);
+		Window(const std::string& name, int width, int height);
 
 		bool active = true;
-		numerics::Vector3 backgroundColor = numerics::Vector3(0, 0, 0);
+		numerics::Vector3 backgroundColor = numerics::Vector3(1, 0, 0);
 
 		std::vector<RenderObject> objects;
 

@@ -36,7 +36,7 @@ void runApplication()
 	}
 
 	// Clean up
-	glfwTerminate();
+	GLFWContext::terminate();
 }
 
 // Run
