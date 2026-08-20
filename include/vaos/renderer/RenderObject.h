@@ -1,24 +1,30 @@
 #pragma once
 
-#include "GLFWContext.h"
-#include "Material.h"
-#include "Mesh/Mesh.h"
-#include "Numerics/Transform.h"
+#include "vaos/renderer/GLFWContext.h"
+#include "vaos/renderer/Material.h"
+#include "vaos/renderer/Mesh/Mesh.h"
+#include "vaos/renderer/Numerics/Transform.h"
 
-namespace vaos::renderer {
-class RenderObject {
-public:
-  Mesh &mesh;
-  vaos::numerics::Transform transform;
-  Material &shader;
+namespace vaos::renderer
+{
+  class RenderObject
+  {
+    const Mesh& mesh;
+    const Material& shader;
 
-  RenderObject(Mesh &mesh, Material &shader)
-      : mesh(mesh), transform(vaos::numerics::Transform()), shader(shader) {}
+  public:
+    vaos::numerics::Transform transform;
 
-  void draw() const {
-    glBindVertexArray(mesh.vao);
-    shader.useShader(transform);
-    glDrawElements(GL_TRIANGLES, mesh.indexCount, GL_UNSIGNED_INT, nullptr);
-  }
-};
+    RenderObject(Mesh& mesh, Material& shader)
+      : mesh(mesh), shader(shader), transform(vaos::numerics::Transform())
+    {
+    }
+
+    void draw(const float aspect) const
+    {
+      glBindVertexArray(mesh.vao);
+      shader.useShader(transform, aspect);
+      glDrawElements(GL_TRIANGLES, mesh.indexCount, GL_UNSIGNED_INT, nullptr);
+    }
+  };
 } // namespace vaos::renderer

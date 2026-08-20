@@ -1,39 +1,50 @@
-#include "Mesh/MeshFactory.h"
-#include "Numerics/Vector3.h"
+#include "vaos/renderer/Mesh/MeshFactory.h"
+#include "vaos/renderer/Numerics/Vector3.h"
 #include <exception>
 
 using Mesh = vaos::renderer::Mesh;
 using MeshFactory = vaos::renderer::MeshFactory;
 
 // ------------------ FETCH MESH ------------------
-Mesh MeshFactory::getMesh(std::string meshName) {
-  try {
+Mesh& MeshFactory::getMesh(const std::string& meshName)
+{
+  try
+  {
     return meshes.at(meshName);
-  } catch (std::exception e) {
+  }
+  catch (std::exception& e)
+  {
     std::cerr << "MESH NOT FOUND: " << e.what() << std::endl;
-    exit;
+    exit(-1);
   }
 }
 
 // ------------------ BASIC POLYGONS ------------------
-Mesh MeshFactory::generateSquare() {
-  if (!meshes.contains("square")) {
-
-    std::vector<vaos::numerics::Vector3> vertices = {vaos::numerics::Vector3(1, 1, 0), vaos::numerics::Vector3(-1, 1, 0),
-                                     vaos::numerics::Vector3(-1, -1, 0), vaos::numerics::Vector3(1, -1, 0)};
-    std::vector<unsigned int> indices = {0, 1, 2, 0, 2, 3};
+Mesh MeshFactory::generateSquare()
+{
+  if (!meshes.contains("square"))
+  {
+    const std::vector<vaos::numerics::Vector3> vertices = {
+      vaos::numerics::Vector3(1, 1, 0), vaos::numerics::Vector3(-1, 1, 0),
+      vaos::numerics::Vector3(-1, -1, 0), vaos::numerics::Vector3(1, -1, 0)
+    };
+    const std::vector<unsigned int> indices = {0, 1, 2, 0, 2, 3};
 
     meshes.emplace("square", Mesh(vertices, indices));
   }
   return meshes.at("square");
 };
 
-Mesh MeshFactory::generateTriangle() {
-  if (!meshes.contains("triangle")) {
-    std::vector<vaos::numerics::Vector3> vertices = {vaos::numerics::Vector3(0, SQRT3 / 3, 0),
-                                     vaos::numerics::Vector3(-SQRT3 / 2, -SQRT3 / 6, 0),
-                                     vaos::numerics::Vector3(SQRT3 / 2, -SQRT3 / 6, 0)};
-    std::vector<unsigned int> indices = {0, 1, 2};
+Mesh MeshFactory::generateTriangle()
+{
+  if (!meshes.contains("triangle"))
+  {
+    const std::vector<vaos::numerics::Vector3> vertices = {
+      vaos::numerics::Vector3(0, SQRT3 / 3, 0),
+      vaos::numerics::Vector3(-SQRT3 / 2, -SQRT3 / 6, 0),
+      vaos::numerics::Vector3(SQRT3 / 2, -SQRT3 / 6, 0)
+    };
+    const std::vector<unsigned int> indices = {0, 1, 2};
 
     meshes.emplace("triangle", Mesh(vertices, indices));
   }
@@ -41,26 +52,31 @@ Mesh MeshFactory::generateTriangle() {
 }
 
 // ------------------ CIRCLE ------------------
-Mesh MeshFactory::generateCircle(int resolution, bool cache = true) {
+Mesh MeshFactory::generateCircle(const int resolution, const bool cache = true)
+{
   std::string reference = "circle" + std::to_string(resolution);
-  if (meshes.contains(reference)) {
+  if (meshes.contains(reference))
+  {
     return meshes.at(reference);
   }
 
   std::vector<vaos::numerics::Vector3> vertices = {vaos::numerics::Vector3(0, 0, 0)};
   const double step = 6.283185307 / resolution;
 
-  for (int i = 0; i < resolution; i++) {
-    vertices.push_back(vaos::numerics::Vector3(std::cos(step * i), // x
-                               std::sin(step * i), // y
-                               0));
+  for (int i = 0; i < resolution; i++)
+  {
+    vertices.emplace_back(
+      std::cos(step * i), // x
+      std::sin(step * i), // y
+      0);
   }
 
   std::vector<unsigned int> ebo;
 
-  for (int i = 0; i < resolution - 1; i++) {
-    ebo.push_back(0);                        // center
-    ebo.push_back(i + 1);                    // current
+  for (int i = 0; i < resolution - 1; i++)
+  {
+    ebo.push_back(0); // center
+    ebo.push_back(i + 1); // current
     ebo.push_back((i + 1) % resolution + 1); // adjacent
   }
 
@@ -68,10 +84,11 @@ Mesh MeshFactory::generateCircle(int resolution, bool cache = true) {
   ebo.push_back(resolution);
   ebo.push_back(1);
 
-  Mesh mesh = Mesh(vertices, ebo);
-  if (cache) {
+  const Mesh mesh = Mesh(vertices, ebo);
+  if (cache)
+  {
     meshes.emplace(reference, mesh);
   }
-  
+
   return mesh;
 }

@@ -6,30 +6,30 @@
 #include <vector>
 
 // OpenGL
-#include "GLFWContext.h"
+#include "vaos/renderer/GLFWContext.h"
+#include "vaos/renderer/RenderObject.h"
 
-#include "RenderObject.h"
+namespace vaos::renderer
+{
+	class Window
+	{
+	private:
+		int width = 1920;
+		int height = 1080;
 
-namespace vaos::renderer {
+		GLFWwindow* programWindow;
 
-class Window {
-private:
-  int width;
-  int height;
+	public:
+		Window(const std::string& name, int width, int height);
 
-  GLFWwindow *programWindow;
+		bool active = true;
+		numerics::Vector3 backgroundColor = numerics::Vector3(1, 0, 0);
 
-public:
-  Window (std::string name, int width, int height);
+		std::vector<RenderObject> objects;
 
-  bool active = true;
+		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-  static void error_callback(int error, const char *description);
-  static void framebuffer_size_callback(GLFWwindow *window, int width,
-                                        int height);
-  static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-  void render(std::vector<RenderObject> objects);
-};
-
+		void render();
+	};
 } // namespace vaos::renderer

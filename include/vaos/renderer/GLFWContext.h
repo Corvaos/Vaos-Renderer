@@ -5,26 +5,35 @@
 
 #include <iostream>
 
-namespace vaos::renderer {
-
-struct GLFWContext {
-
-  static void init() {
-    glfwSetErrorCallback(error_callback);
-
-    if (!glfwInit()) {
-      std::cerr << "Failed to init" << std::endl;
-      return;
+namespace vaos::renderer
+{
+  class GLFWContext
+  {
+  private:
+    static void error_callback(const int error, const char* description)
+    {
+      std::cerr << "Error: " << error << std::endl << description << std::endl;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  }
+  public:
+    static void init()
+    {
+      glfwSetErrorCallback(error_callback);
 
-  static void error_callback(int error, const char *description) {
-    std::cerr << "Error: \n" << description << std::endl;
-  }
-};
+      if (!glfwInit())
+      {
+        std::cerr << "Failed to init" << std::endl;
+        return;
+      }
 
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    }
+
+    static void terminate()
+    {
+      glfwTerminate();
+    }
+  };
 } // namespace vaos::renderer

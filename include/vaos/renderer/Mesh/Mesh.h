@@ -2,19 +2,19 @@
 
 #include <vector>
 
-#include "Numerics/Vector3.h"
-#include "GLFWContext.h"
+#include "vaos/renderer/Numerics/Vector3.h"
+#include "vaos/renderer/GLFWContext.h"
 
 namespace vaos::renderer {
 
 class Mesh {
 public:
-  GLuint vao, vbo, ebo;
-  GLsizei indexCount;
+  GLuint vao{}, vbo{}, ebo{};
+  GLsizei indexCount{};
 
   Mesh(const std::vector<vaos::numerics::Vector3> &inputVector3s,
        const std::vector<unsigned int> &inputEBO) {
-    indexCount = GLsizei(inputEBO.size());
+    indexCount = static_cast<GLsizei>(inputEBO.size());
 
     // GENERATE VARIABLE VALUES
     glGenVertexArrays(1, &vao);
@@ -37,7 +37,7 @@ public:
 
     // GIVE OPENGL INTERPRETATION
     glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, 3 * sizeof(double),
-                          (void *)0);
+                          static_cast<void*>(nullptr));
     glEnableVertexAttribArray(0);
 
     // Prevent overwriting future meshes
